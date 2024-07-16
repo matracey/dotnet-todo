@@ -1,7 +1,59 @@
 ﻿@page "/"
+@inject TodoService TodoService
 
-<PageTitle>Home</PageTitle>
+<h3>Todo List</h3>
 
-<h1>Hello, world!</h1>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">To Do List</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="input-group mb-3">
+                        <form @onsubmit="AddTodo" class="input-group mb-3">
+                            <input type="text" class="form-control" id="todo-input" placeholder="Add new task..." @bind="_newTodoText" />
+                            <button class="btn btn-primary" type="submit">Add</button>
+                        </form>
+                    </div>
+                    <ul class="list-group" id="todo-list">
+                        @foreach (var todo in _todos)
+                        {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <input type="checkbox" @onclick="() => ToggleTodo(todo)" checked="@(todo.IsComplete ? "checked" : null)" />
+                            <span class="task-text">@todo.Text</span>
+                            <div class="btn-group">
+                                <button class="btn btn-danger btn-sm delete-btn" @onclick="() => DeleteTodo(todo.Id)">✕</button>
+                            </div>
+                        </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-Welcome to your new app.
+@code {
+    private IEnumerable<TodoItem> _todos = [];
+    private string _newTodoText = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        _todos = await TodoService.GetTodosAsync();
+    }
+
+    private async Task AddTodo()
+    {
+        throw new NotImplementedException();
+    }
+
+    private async Task ToggleTodo(TodoItem todo)
+    {
+        throw new NotImplementedException();
+    }
+
+    private async Task DeleteTodo(long id)
+    {
+        throw new NotImplementedException();
+    }
+}
