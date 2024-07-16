@@ -9,7 +9,8 @@ public class TodoService
 
     public TodoService(HttpClient httpClient)
     {
-        _httpClient = httpClient;
+          _httpClient = httpClient;
+          _httpClient.BaseAddress = new Uri("http://localhost:5000/"); // Update the port number if necessary
     }
 
     public async Task<IEnumerable<TodoItem>> GetTodosAsync()
