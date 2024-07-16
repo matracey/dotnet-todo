@@ -63,6 +63,21 @@ public class TodoController : ControllerBase
         return NoContent();
     }
 
+    [HttpDelete("{id:long}")]
+    public async Task<IActionResult> DeleteTodoItem(long id)
+    {
+        var todoItem = await _todoContext.TodoItems.FindAsync(id);
+        if (todoItem == null)
+        {
+            return NotFound();
+        }
+
+        _todoContext.TodoItems.Remove(todoItem);
+        await _todoContext.SaveChangesAsync();
+
+        return NoContent();
+    }
+
     private void CreateSampleTodo(string todoText, bool todoIsComplete)
     {
         if (_todoContext.TodoItems.Any())
