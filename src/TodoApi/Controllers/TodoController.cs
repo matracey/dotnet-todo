@@ -46,6 +46,23 @@ public class TodoController : ControllerBase
         return CreatedAtAction(nameof(GetTodoItem), new { id = todoItem.Id }, todoItem);
     }
 
+    [HttpPut("{id:long}")]
+    public async Task<IActionResult> PutTodoItem(long id, TodoItem todoItem)
+    {
+        if (id != todoItem.Id)
+        {
+            return BadRequest();
+        }
+
+        // Use Entity Framework to find the database entry matching todoItem and mark it as "Modified"
+        _todoContext.Entry(todoItem).State = EntityState.Modified;
+
+        // Saving will commit the modified todoItem to our database.
+        await _todoContext.SaveChangesAsync();
+
+        return NoContent();
+    }
+
     private void CreateSampleTodo(string todoText, bool todoIsComplete)
     {
         if (_todoContext.TodoItems.Any())
