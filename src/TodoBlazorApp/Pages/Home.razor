@@ -44,16 +44,24 @@
 
     private async Task AddTodo()
     {
-        throw new NotImplementedException();
+        if (!string.IsNullOrEmpty(_newTodoText))
+        {
+            var newTodo = new TodoItem (_newTodoText);
+            await TodoService.AddTodoAsync(newTodo);
+            _todos = await TodoService.GetTodosAsync();
+            _newTodoText = string.Empty;
+        }
     }
 
     private async Task ToggleTodo(TodoItem todo)
     {
-        throw new NotImplementedException();
+        todo.IsComplete = !todo.IsComplete;
+        await TodoService.UpdateTodoAsync(todo);
     }
 
     private async Task DeleteTodo(long id)
     {
-        throw new NotImplementedException();
+        await TodoService.DeleteTodoAsync(id);
+        _todos = await TodoService.GetTodosAsync();
     }
 }
