@@ -24,6 +24,19 @@ public class TodoController : ControllerBase
         return await _todoContext.TodoItems.ToListAsync();
     }
 
+    [HttpGet("{id:long}")]
+    public async Task<ActionResult<TodoItem>> GetTodoItem(long id)
+    {
+        var todoItem = await _todoContext.TodoItems.FindAsync(id);
+
+        if (todoItem == null)
+        {
+            return NotFound();
+        }
+
+        return todoItem;
+    }
+
     private void CreateSampleTodo(string todoText, bool todoIsComplete)
     {
         if (_todoContext.TodoItems.Any())
